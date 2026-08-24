@@ -1,0 +1,129 @@
+# Fase 1 — Banco de Dados de Vagas (SQL)
+
+**Parte de:** [Trilha de Projetos Práticos — Ciência de Dados](./Trilha_Projetos_Ciencia_Dados_Felipe.md)
+**Autor:** Felipe Oliveira de Lima
+
+## Problema
+
+Ao longo do processo seletivo de estágio em Dados, analisei manualmente 5 vagas
+(Na Prática, Syngenta, Goop, SYOS e Red Bull) e ajustei um currículo para cada
+uma. Essa análise vivia espalhada em planilhas e conversas — sem estrutura
+para consultar, cruzar ou responder perguntas como "em quais vagas meu perfil
+já é mais forte?" ou "qual competência aparece com mais frequência?".
+
+## O que eu fiz
+
+Modelei essas informações em um banco de dados relacional, normalizado, para
+praticar SQL de verdade (`SELECT`, `WHERE`/`HAVING`, `JOIN`, `GROUP BY`,
+chaves primárias/estrangeiras) — exatamente os comandos exigidos como
+obrigatórios na vaga da Goop.
+
+## Modelo de dados (diagrama ER)
+
+```mermaid
+erDiagram
+    EMPRESAS ||--o{ VAGAS : publica
+    VAGAS ||--o{ VAGA_COMPETENCIAS : exige
+    COMPETENCIAS ||--o{ VAGA_COMPETENCIAS : "é exigida em"
+    COMPETENCIAS ||--o| MINHAS_COMPETENCIAS : "eu possuo"
+    VAGAS ||--o{ CANDIDATURAS : recebe
+
+    EMPRESAS {
+        int id_empresa PK
+        text nome
+        text setor
+    }
+    VAGAS {
+        int id_vaga PK
+        int id_empresa FK
+        text titulo
+        text localizacao
+        text modalidade
+        text tipo_vaga
+        date data_analise
+    }
+    COMPETENCIAS {
+        int id_competencia PK
+        text nome
+        text categoria
+    }
+    VAGA_COMPETENCIAS {
+        int id_vaga FK
+        int id_competencia FK
+        text exigencia
+    }
+    MINHAS_COMPETENCIAS {
+        int id_competencia PK,FK
+        text nivel
+    }
+    CANDIDATURAS {
+        int id_candidatura PK
+        int id_vaga FK
+        date data_candidatura
+        text status
+        text versao_cv
+    }
+```
+
+## Decisões de modelagem (o porquê de cada uma)
+
+- **`competencias` é uma tabela separada, não uma coluna de texto solto em
+  `vagas`.** Isso evita repetir "SQL", "Python" etc. como texto livre em cada
+  linha (o clássico erro de não normalizar) e permite fazer `GROUP BY`
+  confiável — sem isso, "SQL" e "sql" e "SQL Básico" viram três coisas
+  diferentes para o banco.
+- **`vaga_competencias` resolve o relacionamento N:N** entre vagas e
+  competências: uma vaga exige várias competências, e uma competência
+  (Excel, por exemplo) aparece em várias vagas. Guardei também o campo
+  `exigencia` (Obrigatório/Desejável) nessa tabela, porque essa informação é
+  sobre a *relação* vaga-competência, não sobre a vaga nem sobre a
+  competência isoladamente.
+- **`minhas_competencias` fica separada de `competencias`** de propósito: é
+  o meu inventário pessoal de skills, atualizado conforme eu evoluo. Isso
+  permite calcular aderência sem misturar "o que existe no mercado" com "o
+  que eu já sei".
+- **`candidaturas` é uma tabela própria**, mesmo sendo hoje 1 candidatura por
+  vaga, porque no mundo real pode haver reaplicação ou mudança de status ao
+  longo do tempo — já deixo a modelagem pronta para isso.
+
+## Como rodar
+
+Banco: SQLite (não precisa instalar servidor).
+
+```bash
+python3 -c "
+import sqlite3
+conn = sqlite3.connect('vagas.db')
+conn.executescript(open('01_schema.sql').read())
+conn.executescript(open('02_seed_data.sql').read())
+conn.commit()
+"
+```
+
+Depois, para rodar qualquer uma das 10 queries de `03_queries.sql`, abra o
+arquivo com qualquer cliente SQLite (ex: extensão SQLite Viewer do VS Code,
+ou DB Browser for SQLite) e execute os blocos individualmente.
+
+## Insight que já saiu do banco (query 10 — % de aderência por vaga)
+
+| Vaga | Aderência atual |
+|---|---:|
+| Red Bull — Data & Analytics (Sistemas) | 66,7% |
+| Goop — TI, Foco em Dados | 57,1% |
+| Syngenta — Programa de Estágio | 50,0% |
+| Na Prática — Tecnologia, Dados & BI | 44,4% |
+| SYOS — Ciência de Dados | 20,0% |
+
+Isso confirma, com dado e não só "achismo", algo que já vínhamos discutindo
+nas conversas anteriores: **Red Bull e Goop são hoje os processos onde meu
+perfil já é mais forte**, enquanto **SYOS é o maior gap técnico** (Python,
+AWS e Machine Learning ainda não comprovados). Essa tabela é, literalmente, o
+meu plano de estudos priorizado.
+
+## Próximos passos (Fase 2 da trilha)
+
+Escrever um script Python que automatiza a inserção de novas vagas nesse
+banco — em vez de eu editar `02_seed_data.sql` na mão toda vez, o script vai
+receber o texto da vaga, extrair as competências e inserir no banco (ETL:
+Extract → Transform → Load).
+
