@@ -1,0 +1,17 @@
+# ============================================================
+# MODELO DE VAGA — preencha os campos abaixo e cole a descrição
+# completa da vaga depois da linha separadora (só hífens, na
+# linha seguinte).
+#
+# Linhas que começam com # são só instrução e são ignoradas
+# pelo script. Não precisa apagar essa parte se não quiser.
+# ============================================================
+
+EMPRESA:
+TITULO:
+LOCALIZACAO:
+MODALIDADE:
+
+---
+
+(cole aqui a descrição completa da vaga, requisitos, etc.)

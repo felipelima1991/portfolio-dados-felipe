@@ -1,0 +1,26 @@
+# ============================================================
+# MODELO DE VAGA — preencha os campos abaixo e cole a descrição
+# completa da vaga depois da linha "---".
+#
+# Linhas que começam com # são só instrução e são ignoradas
+# pelo script. Não precisa apagar essa parte se não quiser.
+# ============================================================
+
+EMPRESA: Empresa Exemplo
+TITULO: Estágio em Analytics
+LOCALIZACAO: São Paulo, SP
+MODALIDADE: Híbrido
+
+---
+
+Descrição da vaga (exemplo de demonstração):
+
+Buscamos estagiário(a) de Analytics para apoiar o time de dados.
+
+Requisitos:
+- SQL (obrigatório)
+- Excel avançado (obrigatório)
+- Power BI (desejável)
+- Python (desejável)
+- Perfil comunicativo e organizado (obrigatório)
+- Curiosidade por resolver problemas com dados (desejável)
