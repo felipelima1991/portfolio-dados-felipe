@@ -127,3 +127,10 @@ banco — em vez de eu editar `02_seed_data.sql` na mão toda vez, o script vai
 receber o texto da vaga, extrair as competências e inserir no banco (ETL:
 Extract → Transform → Load).
 
+python3 -c "
+import sqlite3
+conn = sqlite3.connect('vagas.db')
+conn.executescript(open('01_schema.sql').read())
+conn.executescript(open('02_seed_data.sql').read())
+conn.commit()
+"
