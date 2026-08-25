@@ -1,0 +1,21 @@
+﻿id_competencia,nome,categoria
+1,SQL,Técnica
+2,Power BI,Técnica
+3,Looker Studio,Técnica
+4,Metabase,Técnica
+5,Excel,Técnica
+6,Python,Técnica
+7,JavaScript,Técnica
+8,Pacote Office,Técnica
+9,PowerPoint,Técnica
+10,Inglês Intermediário,Técnica
+11,Apresentações Gerenciais,Técnica
+12,Git / Versionamento,Técnica
+13,AWS,Técnica
+14,Machine Learning,Técnica
+15,Comunicação,Comportamental
+16,Organização,Comportamental
+17,Perfil Colaborativo,Comportamental
+18,Curiosidade,Comportamental
+19,Autorresponsabilidade,Comportamental
+20,Proatividade,Comportamental
