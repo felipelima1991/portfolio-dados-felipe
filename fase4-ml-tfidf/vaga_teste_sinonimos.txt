@@ -1,0 +1,11 @@
+EMPRESA: Empresa Teste Sinonimos
+TITULO: Estágio em Business Intelligence
+LOCALIZACAO: São Paulo, SP
+MODALIDADE: Remoto
+
+---
+
+Buscamos estagiário(a) com conhecimento em ferramentas de Business
+Intelligence e planilhas eletrônicas avançadas para apoiar a área de
+inteligência de mercado. Perfil com bastante curiosidade e vontade de
+aprender é essencial, assim como boa comunicação com times não técnicos.
